@@ -134,14 +134,9 @@ long long ARGON2ID_VERIFY(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char 
 		args->lengths[1]
 	);
 	free(encodedHash);
-	switch(verifyStatus){
-		case ARGON2_OK:
-			return 1;
-		case ARGON2_DECODING_FAIL:
-		case ARGON2_DECODING_LENGTH_FAIL:
-			return 0;
-		default:
-			*is_null = 1;
+	// TODO: We should probably do something if the hash fails for any reason other than a non-match
+	if(verifyStatus == ARGON2_OK){
+		return 1;
 	}
 	return 0;
 }
